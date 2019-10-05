@@ -234,7 +234,7 @@ int main()
                 }
             }
             //line clear detect
-            for(int i=0;i<4;i++){
+            for(int i=3;i>=0;i--){
                 int j=1;
                 for(j=1;j<field->getCols()-1;j++){
                     if(!field->getHead()[field->getCols()*(posRow-i)+j]){
@@ -267,7 +267,7 @@ int main()
             if(!winGame){
                 break;
             }
-            //field->test();
+            field->test();
         }
     }
     inf.close();
