@@ -27,7 +27,6 @@ class Field{
         int *getHead(){
             return head;
         }
-
         //testing function
         void see(){
             for(int i=0;i<rows;i++){
@@ -38,6 +37,7 @@ class Field{
             }
         }
 };
+Field *field;//declared in global, so that ever function can access without passing
 class Block{
     private:
         int rows;
@@ -46,7 +46,6 @@ class Block{
     public:
         Block(){}
         Block(int rows,int cols,int *head):rows(rows),cols(cols),head(head){}
-        friend Block rotate90(Block &before);
         void type(int num){
             num--;
             num%=4;
@@ -57,6 +56,8 @@ class Block{
         int getRows(){return rows;}
         int getCols(){return cols;}
         int *getHead(){return head;}
+        friend Block rotate90(Block &before);
+        friend bool blockFit(Block block,int posX,int posY);
         //test function
         void see(){
             for(int i=0;i<rows;i++){
@@ -77,13 +78,19 @@ Block rotate90(Block &before){
     }
     return after;
 }
-bool blockFit(Block block,int type,int posX,int posY){
-    if(0){
-        return false;
+bool blockFit(Block block,int posRow,int posCol){
+    for(int i=0;i<block.rows;i++){
+        for(int j=0;j<block.cols;j++){
+            if(block.head[i*block.cols+j]){
+                if(field->getHead()[field->getCols()*(posRow+i-block.getRows()+1)+posCol+j]){
+                    return false;  
+                }
+            }
+        }
     }
+    
     return true;
 }
-Field *field;//declared in global, so that ever function can access without passing
 int main(){
     //custom input
     int H=10,W=15;
@@ -120,8 +127,8 @@ int main(){
     Block O(2,2,o);
     
     //block enter field
-    char blockChar='Z';
-    int type=1,posCol=1;//user input
+    char blockChar='I';
+    int type=2,posCol=10;//user input
     Block block;
     switch (blockChar)
     {
@@ -150,18 +157,26 @@ int main(){
         cout << "block type error!" ;
         break;
     }
-    block.type(2);
-    //block enter field check
+    block.type(type);
+    
     int posRow=3;
-    if(blockFit(block,type,posRow,posCol)){
-        
+    if(blockFit(block,posRow,posCol)){//block enter field check
+        //block falling collison check
+        while(blockFit(block,posRow,posCol)){
+            posRow++;
+        }
+        posRow--;
+        //block output to field
         for(int i=0;i<block.getRows();i++){
             for(int j=0;j<block.getCols();j++){
                 field->getHead()[field->getCols()*(posRow+i-block.getRows()+1)+posCol+j]=block.getHead()[i*block.getCols()+j];
             }
         }
     }
-    //block falling collison check
+    else{
+        //end game
+    }
+    
         //line detect
         //end game check
 
