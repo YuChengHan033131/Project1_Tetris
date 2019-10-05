@@ -53,6 +53,15 @@ public:
         outf.close();
         
     }
+    void test(){
+        for (int i = 4; i < rows-1; i++){
+                for (int j = 1; j < cols-1; j++){
+                    cout << head[i * cols + j];
+                }
+                cout << endl;
+        }
+        cout << endl;
+    }
 };
 Field *field; //declared in global, so that ever function can access without passing
 class Block
@@ -217,11 +226,11 @@ int main()
             }
             posRow--;
             //block output to field
-            for (int i = 0; i < block.getRows(); i++)
-            {
-                for (int j = 0; j < block.getCols(); j++)
-                {
-                    field->getHead()[field->getCols() * (posRow + i - block.getRows() + 1) + posCol + j] = block.getHead()[i * block.getCols() + j];
+            for (int i = 0; i < block.getRows(); i++){
+                for (int j = 0; j < block.getCols(); j++){ 
+                    if(block.getHead()[i*block.getCols()+j]){
+                        field->getHead()[field->getCols() * (posRow + i - block.getRows() + 1) + posCol + j] = block.getHead()[i * block.getCols() + j];
+                    }  
                 }
             }
             //line clear detect
@@ -258,6 +267,7 @@ int main()
             if(!winGame){
                 break;
             }
+            //field->test();
         }
     }
     inf.close();
