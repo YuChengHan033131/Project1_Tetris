@@ -18,6 +18,16 @@ class Field{
                 }
             }
         }
+        int getRows(){
+            return rows;
+        }
+        int getCols(){
+            return cols;
+        }
+        int *getHead(){
+            return head;
+        }
+
         //testing function
         void see(){
             for(int i=0;i<rows;i++){
@@ -28,7 +38,6 @@ class Field{
             }
         }
 };
-Field *field;//declared in global, so that ever function can access without passing
 class Block{
     private:
         int rows;
@@ -45,6 +54,9 @@ class Block{
                 *this=rotate90(*this);
             }
         }
+        int getRows(){return rows;}
+        int getCols(){return cols;}
+        int *getHead(){return head;}
         //test function
         void see(){
             for(int i=0;i<rows;i++){
@@ -65,9 +77,16 @@ Block rotate90(Block &before){
     }
     return after;
 }
+bool blockFit(Block block,int type,int posX,int posY){
+    if(0){
+        return false;
+    }
+    return true;
+}
+Field *field;//declared in global, so that ever function can access without passing
 int main(){
     //custom input
-    int H=40,W=15;
+    int H=10,W=15;
 
     //building field
     int a[(H+5)*(W+2)];
@@ -100,15 +119,58 @@ int main(){
               1,1};
     Block O(2,2,o);
     
-    Block test=I;
+    //block enter field
+    char blockChar='Z';
+    int type=1,posCol=1;//user input
+    Block block;
+    switch (blockChar)
+    {
+    case 'T':
+        block=T;
+        break;
+    case 'L':
+        block=L;
+        break;
+    case 'J':
+        block=J;
+        break;
+    case 'S':
+        block=S;
+        break;
+    case 'Z':
+        block=Z;
+        break;
+    case 'O':
+        block=O;
+        break;
+    case 'I':
+        block=I;
+        break;
+    default:
+        cout << "block type error!" ;
+        break;
+    }
+    block.type(2);
+    //block enter field check
+    int posRow=3;
+    if(blockFit(block,type,posRow,posCol)){
+        
+        for(int i=0;i<block.getRows();i++){
+            for(int j=0;j<block.getCols();j++){
+                field->getHead()[field->getCols()*(posRow+i-block.getRows()+1)+posCol+j]=block.getHead()[i*block.getCols()+j];
+            }
+        }
+    }
+    //block falling collison check
+        //line detect
+        //end game check
 
-    test.see();
-    test.type(2);
-    cout << endl;
-    test.see();
 
 
-    //field->see();
+    
+
+
+    field->see();
 
     return 0;
 }
