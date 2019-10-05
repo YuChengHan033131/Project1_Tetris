@@ -201,8 +201,9 @@ int main()
             cout << "block type error!";
             break;
         }
-        block.type(type);
-
+        if(blockChar!='O'){
+            block.type(type);
+        }
         int posRow = 3;
         if (blockFit(block, posRow, posCol))
         { //block enter field check
@@ -221,6 +222,24 @@ int main()
                 }
             }
             //line clear detect
+            for(int i=0;i<4;i++){
+                int j=1;
+                for(j=1;j<field->getCols()-1;j++){
+                    if(!field->getHead()[field->getCols()*(posRow-i)+j]){
+                        // don't clear
+                        break;
+                    }
+                }
+                if(j==field->getCols()-1){
+                    //clear
+                    //error
+                    for(j=posRow-i;j>0;j--){
+                        for(int k=1;k<field->getCols()-1;k++){
+                            field->getHead()[(j)*field->getCols()+k]=field->getHead()[(j-1)*field->getCols()+k];
+                        }
+                    }
+                }
+            }
             //detect entering area empty or not
 
         }
