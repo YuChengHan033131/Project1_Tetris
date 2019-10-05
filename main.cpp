@@ -39,15 +39,19 @@ public:
         return head;
     }
     void see()
-    {
-        for (int i = 4; i < rows-1; i++)
-        {
-            for (int j = 1; j < cols-1; j++)
-            {
-                cout << head[i * cols + j];
+    {   
+        ofstream outf("tetris.final.txt");
+            if(!outf){
+                cout << "error" << endl ;
             }
-            cout << endl;
-        }
+            for (int i = 4; i < rows-1; i++){
+                for (int j = 1; j < cols-1; j++){
+                    outf << head[i * cols + j];
+                }
+                outf << endl;
+            }
+        outf.close();
+        
     }
 };
 Field *field; //declared in global, so that ever function can access without passing
@@ -159,12 +163,12 @@ int main()
     int o[4] = {1, 1,
                 1, 1};
     Block O(2, 2, o);
-
+    bool winGame=true;
     while (1)
     {
         char blockChar = 'I';
         int type = 2, posCol = 10;
-        //user input
+        //file input
         inf >> blockChar ;
         if(blockChar=='E'){
             break;
@@ -205,8 +209,7 @@ int main()
             block.type(type);
         }
         int posRow = 3;
-        if (blockFit(block, posRow, posCol))
-        { //block enter field check
+        if (blockFit(block, posRow, posCol)){ //block enter field check
             //block falling collison check
             while (blockFit(block, posRow, posCol))
             {
@@ -232,7 +235,6 @@ int main()
                 }
                 if(j==field->getCols()-1){
                     //clear
-                    //error
                     for(j=posRow-i;j>0;j--){
                         for(int k=1;k<field->getCols()-1;k++){
                             field->getHead()[(j)*field->getCols()+k]=field->getHead()[(j-1)*field->getCols()+k];
@@ -240,20 +242,33 @@ int main()
                     }
                 }
             }
-            //detect entering area empty or not
-
+            //detect entering area empty or not (top 4 rows of field)
+            for(int i=0;i<4;i++){
+                for(int j=1;j<field->getCols()-1;j++){
+                    if(field->getHead()[(i)*field->getCols()+j]){//something in entering area
+                        //end game
+                        winGame=false;
+                        break;
+                    }
+                }
+                if(!winGame){
+                    break;
+                }
+            }
+            if(!winGame){
+                break;
+            }
         }
-        else
-        {
-            //end game
-        }
-
-        //line detect
-        //end game check
     }
     inf.close();
+    //win(no needed ?)
+    if(winGame==true){
+        cout << "win!!" << endl ;
+    }else{
+        cout << "loser!" << endl;
+    }
 
+    //game result file output
     field->see();
-
     return 0;
 }
