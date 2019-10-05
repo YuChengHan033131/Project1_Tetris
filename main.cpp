@@ -38,12 +38,11 @@ public:
     {
         return head;
     }
-    //testing function
     void see()
     {
-        for (int i = 0; i < rows; i++)
+        for (int i = 4; i < rows-1; i++)
         {
-            for (int j = 0; j < cols; j++)
+            for (int j = 1; j < cols-1; j++)
             {
                 cout << head[i * cols + j];
             }
@@ -161,12 +160,19 @@ int main()
                 1, 1};
     Block O(2, 2, o);
 
-    while (!inf.eof())
+    while (1)
     {
         char blockChar = 'I';
         int type = 2, posCol = 10;
         //user input
-        inf >> blockChar >> type >> posCol;
+        inf >> blockChar ;
+        if(blockChar=='E'){
+            break;
+        }
+        if(blockChar!='O'){
+            inf >> type;
+        }
+        inf >> posCol;
         Block block;
         switch (blockChar)
         {
@@ -214,6 +220,9 @@ int main()
                     field->getHead()[field->getCols() * (posRow + i - block.getRows() + 1) + posCol + j] = block.getHead()[i * block.getCols() + j];
                 }
             }
+            //line clear detect
+            //detect entering area empty or not
+
         }
         else
         {
