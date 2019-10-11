@@ -40,7 +40,7 @@ public:
     }
     void see()
     {   
-        ofstream outf("tetris.final.txt");
+        ofstream outf("Tetris.output.txt");
             if(!outf){
                 cout << "error" << endl ;
             }
@@ -136,7 +136,7 @@ int main()
 {
     int H = 10, W = 15;
     //input
-    ifstream inf("tetris.data.txt");
+    ifstream inf("Tetris.data.txt");
     if (!inf)
     {
         cout << "input error" << endl ;
