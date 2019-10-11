@@ -283,11 +283,11 @@ int main()
     }
     inf.close();
     //win(no needed ?)
-    if(winGame==true){
+    /*if(winGame==true){
         cout << "win!!" << endl ;
     }else{
         cout << "loser!" << endl;
-    }
+    }*/
 
     //game result file output
     //field->test();
