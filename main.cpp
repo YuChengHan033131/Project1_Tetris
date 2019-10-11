@@ -139,7 +139,7 @@ int main()
     ifstream inf("tetris.data.txt");
     if (!inf)
     {
-        cout << "input error";
+        cout << "input error" << endl ;
     }
     inf >> H >> W;
     //building field
@@ -234,11 +234,15 @@ int main()
                 }
             }
             //line clear detect
-            for(int i=3;i>=0;i--){
+            for(int i=0;i<4;){
                 int j=1;
+                if(posRow-i==3){
+                	break;
+                }
                 for(j=1;j<field->getCols()-1;j++){
                     if(!field->getHead()[field->getCols()*(posRow-i)+j]){
                         // don't clear
+                        i++;
                         break;
                     }
                 }
@@ -249,6 +253,9 @@ int main()
                             field->getHead()[(j)*field->getCols()+k]=field->getHead()[(j-1)*field->getCols()+k];
                         }
                     }
+                    //check the line again after line falling
+                        //so don't i++
+                    
                 }
             }
             //detect entering area empty or not (top 4 rows of field)
@@ -267,7 +274,11 @@ int main()
             if(!winGame){
                 break;
             }
-            field->test();
+            //field->test();
+        }
+        else{
+            winGame=false;
+            break;
         }
     }
     inf.close();
@@ -279,6 +290,7 @@ int main()
     }
 
     //game result file output
+    //field->test();
     field->see();
     return 0;
 }
