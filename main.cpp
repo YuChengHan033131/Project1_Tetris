@@ -136,12 +136,13 @@ int main()
 {
     int H = 10, W = 15;
     //input
-    ifstream inf("D:\\c++\\Project1_Tetris\\test_case\\1073007S\\Tetris.data");
-    if (!inf)
-    {
-        cout << "input error" << endl ;
-    }
+    ifstream inf("Tetris.data");
+    if (!inf)                                                                       
+    {                                                                                   
+        cout << "input error" << endl ;                                                                                        
+    }                                                                               
     inf >> H >> W;
+
     //building field
     int a[(H + 5) * (W + 2)];
     field = new Field(H + 5, W + 2, a);
